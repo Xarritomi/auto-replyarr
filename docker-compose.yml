@@ -1,0 +1,7 @@
+version: "3.3"
+services:
+  auto-replyarr:
+    volumes:
+      - "/opt/auto-replyarr:/config:rw"
+    restart: always
+    image: "xaritomi/auto-replyarr:latest"

@@ -1,0 +1,27 @@
+token: # Your Discord Token
+prefix: "!" # Dicsord Prefix, currently not being used
+guilds: # An array of guild id's that this bot will register it's commands to. 
+  # - 387534987237461378
+
+terms: # An array of terms the bot will use when matching user content
+  # If you have terms that are similar - place the one your want prioritised at the higher in the array
+  - term: This is a test term
+    response: Test response
+    embed: true # Specify if you would like the response to be in a embed
+    # Regex can also be used, but make sure to add the regex flag
+  - term: (\A|\b|\s)(tha+nks?( you)?|\bt(a+|y|hn?x+)((s|v)m)?\b|che+rs|da+nke+)(\z|\b|\s)
+    response: # For multi line messaged
+      - Hello
+      - This will print
+      - On multiple line
+      - "**You can also use Discord formatting**" # Wrap text in quotes
+    regex: true # <-- Here
+paste: # A list of pastes, such as pastebin or hastebin
+  urls:
+    - url: https://hastebin.com/ # Code will only be extracted if at the end of the URL
+      refactored: https://hastebin.com/raw/{{code}} # Raw text is required
+    - url: https://pastebin.com/
+      refactored: https://pastebin.com/raw/{{code}}
+reactions: # The reaction on images and pastes
+  image: 👀
+  paste: 👀
