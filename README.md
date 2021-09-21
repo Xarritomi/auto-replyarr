@@ -8,6 +8,12 @@
 
 A simple discord bot written in discord.js which allows you to easily define terms that the bot will look for and respond with a predefined response
 
+> Supports
+>
+> - Text Validation
+> - Raw Text Validation. I.E from hastebin.com
+> - Image Validation. Will attempt to extract text from an image
+
 ## Install
 
 clone this repo and `cd` into the directory,
