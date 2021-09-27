@@ -32,17 +32,17 @@ cp config.sample.yml config.yml
 ```yml
 token: # Your Discord Token
 prefix: "!" # Discord Prefix, currently not being used
-guilds:# An array of guild id's that this bot will register it's commands to.
+guilds:# An array of guild id's that this bot will register its commands to.
   # - 387534987237461378
 
 terms: # An array of terms the bot will use when matching user content
-  # If you have terms that are similar - place the one your want prioritised at the higher in the array
+  # If you have terms that are similar - place the one you want prioritised at the higher in the array
   - term: This is a test term
     response: Test response
     embed: true # Specify if you would like the response to be in a embed
     # Regex can also be used, but make sure to add the regex flag
   - term: (\A|\b|\s)(tha+nks?( you)?|\bt(a+|y|hn?x+)((s|v)m)?\b|che+rs|da+nke+)(\z|\b|\s)
-    response: # For multi line messaged
+    response: # For multi line messages
       - Hello
       - This will print
       - On multiple line
