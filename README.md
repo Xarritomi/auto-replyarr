@@ -31,7 +31,7 @@ cp config.sample.yml config.yml
 
 ```yml
 token: # Your Discord Token
-prefix: "!" # Dicsord Prefix, currently not being used
+prefix: "!" # Discord Prefix, currently not being used
 guilds:# An array of guild id's that this bot will register it's commands to.
   # - 387534987237461378
 
