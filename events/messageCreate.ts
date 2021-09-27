@@ -52,6 +52,8 @@ export const run = async (client: Client, bot: any, message: Message) => {
       }
     }
 
+    if (isEmptyObject(foundTerm)) return;
+
     if (foundTerm) {
       const options: MessageEmbedOptions = {};
       let response: any = foundTerm.response;
@@ -122,3 +124,12 @@ const isValidURL = (string: string) => {
   let url = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
   return url !== null;
 };
+
+function isEmptyObject(obj: any) {
+  for (var property in obj) {
+    if (obj.hasOwnProperty(property)) {
+      return false;
+    }
+  }
+  return true;
+}

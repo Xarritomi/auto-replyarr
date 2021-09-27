@@ -10,11 +10,16 @@ import YAML from "yaml";
 
   // Load config.yml into memory
   const configFile = fs.readFileSync(`${process.env.DOCKER ? "/config/config.yml" : `${path.join(__dirname, "./config.yml")}`}`, "utf8");
-  bot.config = YAML.parse(configFile);
+  bot.config = await YAML.parse(configFile);
 
   // Check if Discord Token has been provided
   if (!bot.config.token || bot.config.token === "") {
     console.log("Please Provide a valid Discord Token");
+    process.exit();
+  }
+
+  if (!bot.config.guilds || bot.config.guilds === 0) {
+    console.log("Please Provide at least one guild id");
     process.exit();
   }
 

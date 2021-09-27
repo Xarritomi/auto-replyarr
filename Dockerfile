@@ -15,6 +15,8 @@ RUN npm install
 
 COPY . .
 
+ENV DOCKER=true
+
 VOLUME [ "/config" ]
 
 CMD ["/bin/bash", "/app/entrypoint.sh"]
