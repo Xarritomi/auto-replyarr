@@ -60,6 +60,7 @@ reactions: # The reaction on images and pastes
 ```
 
 ```sh
+npm i -g ts-node
 npm install
 npm run start
 ```
