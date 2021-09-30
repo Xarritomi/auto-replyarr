@@ -83,7 +83,7 @@ services:
   auto-replyarr:
     volumes:
       - "/opt/auto-replyarr:/config:rw"
-    restart: always
+    restart: unless-stopped
     image: "xaritomi/auto-replyarr:latest"
 ```
 
