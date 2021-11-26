@@ -8,10 +8,14 @@ import YAML from "yaml";
   // Global obj to store important information
   const bot: any = {};
 
+  bot.userRateLimit = new Discord.Collection();
+
   try {
     // Load config.yml into memory
     const configFile = fs.readFileSync(`${process.env.DOCKER ? "/config/config.yml" : `${path.join(__dirname, "./config.yml")}`}`, "utf8");
     bot.config = await YAML.parse(configFile);
+
+    console.log({ bot });
 
     let acceptedTermKeys = ["term", "response", "embed", "regex"];
 

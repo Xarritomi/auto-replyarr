@@ -32,7 +32,6 @@ interface ICheckTermsOptions {
 }
 
 export const run = async (client: Client, bot: any, message: Message) => {
-  console.log("Starting");
   const checkTerms = (message: Message, content: string, termOptions: ICheckTermsOptions) => {
     let foundTerm: Iterm | any = {};
     for (const term of bot.config.terms) {
@@ -58,7 +57,6 @@ export const run = async (client: Client, bot: any, message: Message) => {
     if (foundTerm) {
       const options: MessageEmbedOptions = {};
       let response: any = foundTerm.response;
-      console.log({ response });
       options.description = termOptions.found ? `I have found the following for: \`${termOptions.url}\`\n\n` : "";
       if (response instanceof Array) {
         options.description += response.map((msg: string) => msg.replace("{{user}}", `<@${message.author.id}>`)).join("\n");
@@ -72,19 +70,25 @@ export const run = async (client: Client, bot: any, message: Message) => {
       } else {
         message.channel.send({ content: options.description });
       }
+      bot.userRateLimit.set(message.author.id, true);
+      setTimeout(() => {
+        bot.userRateLimit.delete(message.author.id);
+      }, bot.config.userRateLimit);
     }
   };
 
   if (message.author.bot) return;
 
+  if (Object.keys(bot.config).includes("channels")) {
+    if (bot.config.channels !== null && bot.config.channels.length > 0 && !bot.config.channels.includes(parseInt(message.channel.id))) return;
+  }
+
+  if (bot.userRateLimit.has(message.author.id)) return;
   let url: boolean = isValidURL(message.content);
   let filteredUrl: Array<IUrl> = [];
 
-  console.log(url);
-
   if (url) {
     const extractedUrl = extractUrls(message.content)[0] || [];
-    console.log({ extractedUrl });
     bot.config.paste.urls.forEach((URL: IPasteUrl) => {
       if (extractedUrl.includes(URL.url)) {
         filteredUrl.push({
@@ -102,10 +106,8 @@ export const run = async (client: Client, bot: any, message: Message) => {
       let url = filteredUrl[0].refactored.replace("{{code}}", code);
       let paste = await fetch(url);
       let text = await paste.text();
-      console.log("image");
       return checkTerms(message, text, { found: true, url: filteredUrl[0].currUrl });
     } catch (e) {
-      console.log("Catch");
       console.log(e);
     }
   }
