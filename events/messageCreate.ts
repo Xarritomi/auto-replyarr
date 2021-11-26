@@ -32,6 +32,7 @@ interface ICheckTermsOptions {
 }
 
 export const run = async (client: Client, bot: any, message: Message) => {
+  console.log("Starting");
   const checkTerms = (message: Message, content: string, termOptions: ICheckTermsOptions) => {
     let foundTerm: Iterm | any = {};
     for (const term of bot.config.terms) {
@@ -57,6 +58,7 @@ export const run = async (client: Client, bot: any, message: Message) => {
     if (foundTerm) {
       const options: MessageEmbedOptions = {};
       let response: any = foundTerm.response;
+      console.log({ response });
       options.description = termOptions.found ? `I have found the following for: \`${termOptions.url}\`\n\n` : "";
       if (response instanceof Array) {
         options.description += response.map((msg: string) => msg.replace("{{user}}", `<@${message.author.id}>`)).join("\n");
@@ -78,13 +80,16 @@ export const run = async (client: Client, bot: any, message: Message) => {
   let url: boolean = isValidURL(message.content);
   let filteredUrl: Array<IUrl> = [];
 
+  console.log(url);
+
   if (url) {
-    const url = extractUrls(message.content)[0] || [];
+    const extractedUrl = extractUrls(message.content)[0] || [];
+    console.log({ extractedUrl });
     bot.config.paste.urls.forEach((URL: IPasteUrl) => {
-      if (url.includes(URL.url)) {
+      if (extractedUrl.includes(URL.url)) {
         filteredUrl.push({
           ...URL,
-          currUrl: url,
+          currUrl: extractedUrl,
         });
       }
     });
@@ -97,8 +102,10 @@ export const run = async (client: Client, bot: any, message: Message) => {
       let url = filteredUrl[0].refactored.replace("{{code}}", code);
       let paste = await fetch(url);
       let text = await paste.text();
+      console.log("image");
       return checkTerms(message, text, { found: true, url: filteredUrl[0].currUrl });
     } catch (e) {
+      console.log("Catch");
       console.log(e);
     }
   }
@@ -121,7 +128,7 @@ export const run = async (client: Client, bot: any, message: Message) => {
 };
 
 const isValidURL = (string: string) => {
-  let url = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+  let url = string.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/);
   return url !== null;
 };
 

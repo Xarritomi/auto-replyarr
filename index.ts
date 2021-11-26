@@ -8,9 +8,24 @@ import YAML from "yaml";
   // Global obj to store important information
   const bot: any = {};
 
-  // Load config.yml into memory
-  const configFile = fs.readFileSync(`${process.env.DOCKER ? "/config/config.yml" : `${path.join(__dirname, "./config.yml")}`}`, "utf8");
-  bot.config = await YAML.parse(configFile);
+  try {
+    // Load config.yml into memory
+    const configFile = fs.readFileSync(`${process.env.DOCKER ? "/config/config.yml" : `${path.join(__dirname, "./config.yml")}`}`, "utf8");
+    bot.config = await YAML.parse(configFile);
+
+    let acceptedTermKeys = ["term", "response", "embed", "regex"];
+
+    bot.config.terms.forEach((term: any) => {
+      Object.keys(term).forEach((key) => {
+        if (!acceptedTermKeys.includes(key)) {
+          console.log("There was an error whilst loading your terms");
+          return process.exit(1);
+        }
+      });
+    });
+  } catch (err) {
+    console.log(err);
+  }
 
   // Check if Discord Token has been provided
   if (!bot.config.token || bot.config.token === "") {
