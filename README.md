@@ -32,8 +32,10 @@ cp config.sample.yml config.yml
 ```yml
 token: # Your Discord Token
 prefix: "!" # Discord Prefix, currently not being used
-guilds:# An array of guild id's that this bot will register its commands to.
+channels: # List of channels the bot will listen to. If empty, will listen to all channels
+guilds: # An array of guild id's that this bot will register its commands to. 
   # - 387534987237461378
+userRateLimit: 5000 # Time in milliseconds that a user has to wait before the bot responds again.
 
 terms: # An array of terms the bot will use when matching user content
   # If you have terms that are similar - place the one you want prioritised at the higher in the array
