@@ -83,6 +83,8 @@ a docker-compose.yml file has also been provided in the root of this repo
 version: "3.3"
 services:
   auto-replyarr:
+    hostname: auto-replyarr
+    container_name: auto-replyarr
     volumes:
       - "/opt/auto-replyarr:/config:rw"
     restart: unless-stopped
